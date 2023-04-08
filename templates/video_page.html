@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static 'styles/video_page.css' %}" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a>
+                <img src="{% static 'assests/home/more.png'%}" alt="" onclick="minimizeOrMaximize()" />
+            </a>
+            <a href="/" class="youtube-icon">
+                <img src="{% static 'assests/home/ytlight.png' %}" alt="" />
+            </a>
+        </div>
+        <div>
+            <form action="/search/" method="GET">
+
+                <input type="text" placeholder="Search" name="search_text" />
+                <button type="submit">
+                    <img src="{% static 'assests/home/search.png'%}" alt="" />
+                </button>
+            </form>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+            <i class="material-symbols-outlined " id="video-upload-icon">
+                video_call
+            </i>
+            <a href="\profile/{{user.id}}" class="profile-icon-corner">
+                <img src="{{user_details.image.url}}" alt="{{user.first_name}}" />
+            </a>
+            <a href="{% url 'logout' %}" class="sign-in-button">
+                <button>
+                    Sign Out
+                </button>
+            </a>
+            {% else %}
+            <a href="/login" class="sign-in-button">
+                <button>
+                    Sign In
+                </button>
+            </a>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        <div class="main-video">
+            <div class="video">
+                <video controls>
+                    <source src="{{curr_video.video.url}}" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-details">
+                <p class="video-details__title">
+                    {{curr_video.video_title}}
+                </p>
+                <div class="video_uploader-profile-outer">
+                    <div class="video_uploader-profile-inner">
+                        <a href="\profile/{{curr_video.user_id_id}}" class="profile-icon-corner">
+                            <img src="/media/{{curr_user.image | safe}}" alt="{{video.first_name}}" />
+                        </a>
+                        <div>
+                            <p style="margin-top: 0%; font-weight: 600;">
+                                {{curr_user.first_name}} {{curr_user.last_name}}
+                            </p>
+                        </div>
+                        {% csrf_token %}
+                        {% if already_followed %}
+                        <button youtuber={{curr_video.user_id_id}} option="unsubscribe" id="subscribe"
+                            class="unsubscribe">Unsubscribe</button>
+                        {% else %}
+                        <button youtuber={{curr_video.user_id_id}} option="subscribe" id="subscribe"
+                            class="subscribe">Subscribe</button>
+                        {% endif %}
+                    </div>
+
+                    <div class="uploader-buttons" id="uploader-buttons" videoId="{{curr_video.video_id}}"
+                        currUser="{{user.id}}">
+                        <div>
+                            {% if already_liked %}
+                            <span class="material-symbols-outlined" id="already-liked" onclick="toggleLike(this.id)">
+                                thumb_up
+                            </span> |
+                            {% else %}
+                            <span class="material-symbols-outlined" id="like-button" onclick="toggleLike(this.id)">
+                                thumb_up
+                            </span> |
+                            {% endif %}
+                            {% if already_disliked %}
+                            <span class="material-symbols-outlined" id="already-disliked" onclick="toggleLike(this.id)">
+                                thumb_down
+                            </span>
+                            {% else %}
+                            <span class="material-symbols-outlined" id="dislike-button" onclick="toggleLike(this.id)">
+                                thumb_down
+                            </span>
+                            {% endif %}
+
+                        </div>
+                        {% csrf_token %}
+                        <div style="column-gap: 0.5rem;" id="save-button" videoId="{{curr_video.video_id}}"
+                            currUser="{{user.id}}" onclick="saveVideo()" >
+                            {% if already_saved %}
+                            <span class="material-symbols-outlined">
+                                sync_saved_locally
+                            </span>
+                            <p style="margin: 0%;" class="unsubscribe">Saved</p>
+                            {% else %}
+                            <span class="material-symbols-outlined">
+                                list
+                            </span>
+                            <p style="margin: 0%;" class="subscribe">Save</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-description">
+                <div style="display: flex; justify-content: space-between;">
+                    <h3 style="margin-top: 0%;">Description</h3>
+                    {% if curr_video.user_id_id == user.id%}
+                        <p style="margin-top: 0%;font-weight: 600;">{{curr_video.video_views}} views | {{curr_video.video_likes}} likes | {{curr_video.video_dislikes}} dislikes</p>
+                    {% else %}
+                        <p style="margin-top: 0%;font-weight: 600;">{{curr_video.video_views}} views | {{curr_video.video_likes}} likes</p>
+                    {% endif %}
+                    
+                </div>
+
+                {{curr_video.video_description}}
+            </div>
+            <div class="comments-section">
+                
+                <div>
+                    <p style="margin-top:0%; font-weight: 600;">{{curr_video.video_comments}} comments</p>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="text" placeholder="Comment" name="comment" />
+                        <button type="submit">
+                            Comment
+                        </button>
+                    </form>
+                </div>
+                {% for comment in comments %}
+                <div class="comments">
+                    <div>
+                        <img src="/media/{{comment.image | safe}}" alt="">
+                    </div>
+                    <div>
+                        <h4>@{{comment.first_name}}{{comment.last_name}}</h4>
+                        <p>{{comment.comment}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="side-videos">
+            {% for video in user_data %}
+            {% if video.video_id != curr_video.video_id %}
+            <div class="video-card">
+                <div class="video-card-thumbnail">
+                    <img src="/media/{{video.video_thumbnail | safe }}" alt="" id="thumbnail">
+                </div>
+                <div>
+                    <a href="/{{video.video_id}}" style="text-decoration: none; color: black; margin-bottom: 0%;">
+                        <p class="video-card-title">{{video.video_title}}</p>
+                    </a>
+                    <p class="video-card-channel">{{video.first_name}} {{video.last_name}}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+
+    </main>
+    <script src="{% static '/scripts/profile.js' %}" type="text/javascript"></script>
+    <script src="{% static '/scripts/videoPage.js' %}" type="text/javascript"></script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/login.css' %}">
+    <title>Login Page</title>
+</head>
+
+<body>
+    <div class="sign-in-page">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg">
+        <p class="h1">
+            Sign in
+        </p>
+        <p class="para-below-h1">
+            to continue to YouTube
+        </p>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="email" id="emails" placeholder="Email or phone" name="emails">
+            {% if message %}
+            <p style="color:red">Couldn't found your google account</p>
+            {% endif %}
+            <!-- <a href="" class="forget-email">Forget email?</a> -->
+
+            <input type="password" id="pass" placeholder="Password" name="password">
+            {% for message in messages%}
+            <p style="color:red">Couldn't found your google account</p>
+            {% endfor %}
+            <div class="show-password">
+                <input type="checkbox" id="show" name="show" value="show">
+                <label for="show"> Show password</label>
+            </div>
+            <a href="" class="forget-password">
+                Forget password?
+            </a>
+
+            <p class="para-below-forget">
+                Not your computer? Use Guest mode to sign in privately
+            </p>
+            <a href="" class="learn-more">Learn more</a>
+            <div class="submit-area">
+                <a href="/signup">
+                    Create acount
+                </a>
+                <button type="submit" class="next">
+                    Next
+                </button>
+            </div>
+        </form>
+
+    </div>
+    <footer>
+        <select name="language" id="ganguage">
+            <option value="english">English (United States)</option>
+            <option value="hindi">Hindi</option>
+            <option value="marathi">Marathi</option>
+            <option value="german">German</option>
+        </select>
+        <a href="">
+            Help
+        </a>
+        <a href="">
+            Privacy
+        </a>
+        <a href="">
+            Terms
+        </a>
+    </footer>
+
+</body>
+
+</html>

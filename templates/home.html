@@ -1,0 +1,191 @@
+{% load static%}
+<html>
+{% block head %}
+
+<head>
+    <title>My YouTube Clone</title>
+    <link rel="stylesheet" href="{% static 'styles/home.css' %}" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+</head>
+{% endblock head %}
+
+<body>
+    <header>
+        <div>
+            <a>
+                <img src="{% static 'assests/home/more.png'%}" alt="" onclick="minimizeOrMaximize()" />
+            </a>
+            <a href="" class="youtube-icon">
+                <img src="{% static 'assests/home/ytlight.png' %}" alt="" />
+            </a>
+        </div>
+        <div>
+            <form action="search/" method="GET">
+                <!-- {% csrf_token %} -->
+                <input type="text" placeholder="Search" name="search_text" />
+                <button type="submit">
+                    <img src="{% static 'assests/home/search.png'%}" alt="" />
+                </button>
+            </form>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+            <span id="video-upload-icon">
+                <i class="material-symbols-outlined"> video_call </i>
+            </span>
+            <a href="/profile/{{user.id}}" class="profile-icon-corner">
+                <img src="{{user_details.image.url}}" alt="{{user.first_name}}" />
+            </a>
+            <a href="{% url 'logout' %}" class="sign-in-button">
+                <button>Sign Out</button>
+            </a>
+            {% else %}
+            <a href="/login" class="sign-in-button">
+                <button>Sign In</button>
+            </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main>
+        <div class="more-area">
+            <div class="general-area">
+                <a href="/">
+                    <i class="material-symbols-outlined"> home </i>
+                    Home
+                </a>
+                
+                <a href="/subscriptions/">
+                    <span class="material-symbols-outlined">
+                        subscriptions
+                    </span>
+                    Subscriptions
+                </a>
+            </div>
+
+            <hr />
+            {% if user.is_authenticated %}
+            <div class="personal-area">
+                <a href="/history/">
+                    <span class="material-symbols-outlined"> history </span>
+                    History
+                </a>
+                <a href="/profile/{{user.id}}">
+                    <span class="material-symbols-outlined">
+                        slideshow
+                    </span>
+                    Your videos
+                </a>
+                <a href="/watchlater/">
+                    <span class="material-symbols-outlined">
+                        schedule
+                    </span>
+                    Watch Later
+                </a>
+                <a href="/likedvideos/">
+                    <span class="material-symbols-outlined">
+                        thumb_up
+                    </span>
+                    Liked videos
+                </a>
+            </div>
+            <hr />
+            <div class="your-subscriptions">
+                <h2>Subscriptions</h2>
+                {% for youtuber in subscriptions %}
+                    <div class="subscribed-youtubers">
+                        <a href="/profile/{{youtuber.user_id_id}}" class="profile-icon-corner">
+                            <img src="{{youtuber.image.url}}" alt="{{youtuber.first_name}}" />
+                        </a>
+                        <p>{{youtuber.first_name}} {{youtuber.last_name}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <hr />
+            <div class="setting-area">
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        settings
+                    </span>
+                    Settings
+                </a>
+                <a href="">
+                    <span class="material-symbols-outlined"> help </span>
+                    Help
+                </a>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        sms_failed
+                    </span>
+                    Send feedback
+                </a>
+            </div>
+            <hr />
+            {% endif %}
+            <div class="footer">
+                <a href="">About</a>
+                <a href="">Copyrights</a>
+                <a href="">Contact us</a>
+                <a href="">Terms and Policies</a>
+                <p>@ 2023 Google LLC</p>
+            </div>
+        </div>
+        <div class="more-area-minimize">
+            <div class="side-bar-icons">
+                <a href="/">
+                    <i class="material-symbols-outlined"> home </i>
+                    <p>Home</p>
+                </a>
+                {% if user.is_authenticated %}
+                <a href="/subscriptions/">
+                    <i class="material-symbols-outlined"> subscriptions </i>
+                    <p>Subscriptions</p>
+                </a>
+                <a href="/likedvideos/">
+                    <i class="material-symbols-outlined"> library_music </i>
+                    <p>Music</p>
+                </a>
+                <a href="/watchlater/">
+                    <i class="material-symbols-outlined"> video_library </i>
+                    <p>Library</p>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% block videos_section %}
+        <div class="videos-section">
+            {% for video in user_data %}
+            <div class="video-card" >
+
+                <img src="/media/{{video.video_thumbnail | safe }}" alt="" />
+                <div class="video-card-details">
+                    <div>
+                        <a href="profile/{{video.user_id_id}}" class="profile-icon-corner">
+                            <img src="/media/{{video.image | safe}}" alt="{{video.first_name}}" />
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{{video.video_id}}" style="text-decoration: none; color: black">
+                            <p class="video-card-title" >
+                                {{video.video_title}}
+                            </p>
+                        </a>
+                        <p class="video-card-channel" style="margin-bottom: 0%;">
+                            {{video.first_name}} {{video.last_name}}
+                        </p>
+                        <p style="margin-top: 1%; font-size: 0.8rem; opacity: 0.7; font-weight: 500;">
+                            {{video.video_views}} views
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endblock %}
+    </main>
+    <script src="{% static '/scripts/home.js' %}" type="text/javascript"></script>
+</body>
+
+</html>

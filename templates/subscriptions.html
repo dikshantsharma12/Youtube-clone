@@ -1,0 +1,54 @@
+{% extends 'home.html' %}
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="{% static 'styles/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/subscribed.css' %}" />
+    <title>Document</title>
+</head>
+{% endblock head %}
+
+<body>
+    {% block videos_section %}
+
+    {% comment %} <h2 style="margin-top: 0%;">Subscription Videos</h2> {% endcomment %}
+    <div class="videos-section">
+        {% if subscribed_videos %}
+        {% for video in subscribed_videos %}
+        <div class="video-card">
+            <img src="/media/{{video.video_thumbnail | safe }}" alt="" />
+            <div class="video-card-details">
+                <div>
+                    <a href="/profile/{{video.user_id_id}}" class="profile-icon-corner">
+                        <img src="/media/{{video.image | safe}}" alt="{{video.first_name}}" />
+                    </a>
+                </div>
+                <div>
+                    <a href="{{video.video_id}}" style="text-decoration: none; color: black">
+                        <p class="video-card-title">
+                            {{video.video_title}}
+                        </p>
+                    </a>
+                    <p class="video-card-channel">
+                        {{video.first_name}} {{video.last_name}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h1 style>No subscribed Found</h1>
+        {% endif %}
+    </div>
+    {% endblock %}
+</body>
+
+</html>

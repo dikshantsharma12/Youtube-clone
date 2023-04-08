@@ -1,0 +1,148 @@
+* {
+    box-sizing: border-box;
+    font-family: "Google Sans", "Noto Sans Myanmar UI", arial, sans-serif;
+
+}
+
+.sign-in-page {
+
+    display: flex;
+    width: 26rem;
+    flex-direction: column;
+    padding: 2rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+    margin-top: 8%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0.3rem;
+    border-style: solid;
+    border-width: 1px;
+
+    border-color: rgb(196, 196, 196);
+}
+
+.sign-in-page img {
+    align-self: center;
+    width: 4.688rem;
+    height: 1.5rem;
+}
+
+.sign-in-page .h1 {
+
+    align-self: center;
+    font-size: 1.5rem;
+    margin-bottom: 0%;
+}
+
+.para-below-h1 {
+    color: #333536;
+    align-self: center;
+}
+
+.para-below-forget {
+    font-size: 0.875rem;
+    color: #5f6368;
+    margin-top: 2rem;
+    margin-bottom: 0.2rem;
+}
+
+.sign-in-page input {
+    border-radius: 0.3rem;
+    border-color: rgb(196, 196, 196);
+    border-style: solid;
+    margin-top: 1rem;
+    border-width: 1px;
+    width: 100%;
+    padding: 1rem;
+    height: 2.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.sign-in-page a {
+
+    text-decoration: none;
+    color: #1a73e8;
+    font-family: "Google Sans", Arial, sans-serif;
+    font-size: .875rem;
+    letter-spacing: .0107142857em;
+    font-weight: 500;
+}
+
+.forget-password {
+    margin-top: 0.85rem;
+    margin-bottom: 2rem;
+}
+
+.show-password {
+    display: flex;
+    align-items: center;
+    column-gap: 0.35rem;
+    margin-top: -1.5rem;
+    margin-bottom: 0.875rem;
+}
+
+.show-password input {
+    /* height: 1rem; */
+    width: 1rem;
+}
+
+.show-password label {
+    color: #202124;
+    font-size: 14px;
+}
+
+.sign-in-page a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-family: "Google Sans", Arial, sans-serif;
+    font-size: .875rem;
+    letter-spacing: .0107142857em;
+    font-weight: 500;
+}
+
+.sign-in-page .submit-area {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.submit-area a {
+    color: #1a73e8;
+    font-family: Arial, sans-serif;
+}
+
+.next {
+    color: #fff;
+    border-radius: 0.3rem;
+    border-style: none;
+    background-color: #1a73e8;
+    height: 2rem;
+    width: 5rem;
+}
+
+footer {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    width: 25rem;
+    margin-left: auto;
+
+    margin-right: auto;
+}
+
+footer a {
+    color: #333536;
+    text-decoration: none;
+    justify-self: end;
+    font-size: 0.75rem;
+}
+
+footer select {
+    border: none;
+    background-color: #fff;
+    font-size: 0.75rem;
+    color: #333536;
+}

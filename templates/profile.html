@@ -1,0 +1,395 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'styles/profile.css' %}" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a>
+                <img src="{% static 'assests/home/more.png'%}" alt="" onclick="minimizeOrMaximize()" />
+            </a>
+            <a href="" class="youtube-icon">
+                <img src="{% static 'assests/home/ytlight.png' %}" alt="" />
+            </a>
+        </div>
+
+        <form action="\search" method="GET">
+            <input type="text" placeholder="Search" name="search_text" />
+            <button type="submit">
+                <img src="{% static 'assests/home/search.png'%}" alt="" />
+            </button>
+        </form>
+        <div>
+
+            <i class="material-symbols-outlined" onclick="openUploadVideoForm()" id="video-upload-icon">
+                video_call
+            </i>
+
+            <a href="\profile\{{user.id}}" class="profile-icon-corner">
+                <img src="{{user_details.image.url}}" alt="" />
+            </a>
+        </div>
+    </header>
+    <main>
+        <div class="more-area" id="more-area">
+            <div class="general-area">
+                <a href="/">
+                    <i class="material-symbols-outlined"> home </i>
+                    Home
+                </a>
+                <a href="\subscriptions/">
+                    <span class="material-symbols-outlined">
+                        subscriptions
+                    </span>
+                    Subscriptions
+                </a>
+            </div>
+            <hr />
+            <div class="personal-area">
+                <a href="\history/">
+                    <span class="material-symbols-outlined"> history </span>
+                    History
+                </a>
+                <a href="\profile/{{user.id}}">
+                    <span class="material-symbols-outlined">
+                        slideshow
+                    </span>
+                    Your videos
+                </a>
+                <a href="\watchlater/">
+                    <span class="material-symbols-outlined">
+                        schedule
+                    </span>
+                    Watch Later
+                </a>
+                <a href="\likedvideos/">
+                    <span class="material-symbols-outlined">
+                        thumb_up
+                    </span>
+                    Liked videos
+                </a>
+            </div>
+            <hr />
+            <div class="your-subscriptions">
+                <h2>Subscriptions</h2>
+                {% for youtuber in subscriptions %}
+                    <div class="subscribed-youtubers">
+                        <a href="/profile/{{youtuber.user_id_id}}" class="profile-icon-corner">
+                            <img src="{{youtuber.image.url}}" alt="{{youtuber.first_name}}" />
+                        </a>
+                        <p>{{youtuber.first_name}} {{youtuber.last_name}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <hr />
+            <div class="setting-area">
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        settings
+                    </span>
+                    Settings
+                </a>
+                <a href="">
+                    <span class="material-symbols-outlined"> help </span>
+                    Help
+                </a>
+                <a href="">
+                    <span class="material-symbols-outlined">
+                        sms_failed
+                    </span>
+                    Send feedback
+                </a>
+            </div>
+            <hr />
+            <div class="footer">
+                <a href="">About</a>
+                <a href="">Copyrights</a>
+                <a href="">Contact us</a>
+                <a href="">Terms and Policies</a>
+                <p>@ 2023 Google LLC</p>
+            </div>
+        </div>
+        <div class="more-area-minimize">
+            <div class="side-bar-icons">
+                <a href="/">
+                    <i class="material-symbols-outlined"> home </i>
+                    <p>Home</p>
+                </a>
+                <a href="\subscriptions/">
+                    <i class="material-symbols-outlined"> subscriptions </i>
+                    <p>Subscriptions</p>
+                </a>
+                <a href="\likedvideos/">
+                    <i class="material-symbols-outlined"> thumb_up </i>
+                    <p>Liked Videos</p>
+                </a>
+                <a href="\watchlater/">
+                    <i class="material-symbols-outlined"> video_library </i>
+                    <p>Library</p>
+                </a>
+            </div>
+        </div>
+        <div class="profile-area">
+            <div class="user-details">
+                <div class="personal-details">
+                    <img src="{{youtuber.image.url}}" alt="" />
+                    <div class="user-details-general">
+                        {% if user_details.user_id == youtuber.user_id%}
+                        <h2>{{user.first_name}} {{user.last_name}}</h2>
+                        <p>{{user.email}}</p>
+                        {% else %}
+                        <h2>{{youtuber.first_name}} {{youtuber.last_name}}</h2>
+                        <p>@{{youtuber.first_name}}{{youtuber.last_name}}</p>
+                        {% endif %}
+
+                        <p><span id="subscribers-count">{{total_subscribers}}</span> subscribers</p>
+                    </div>
+                </div>
+                <div class="user-details-buttons">
+                    {% if user_details.user_id == youtuber.user_id%}
+                    <button onclick="openForm()" class="edit-profile-button">
+                        Edit profile
+                    </button>
+                    <button>Manage videos</button>
+                    {% else %}
+                    {% csrf_token %}
+                    {% if already_followed %}
+                    <button youtuber={{youtuber.user_id_id}} option="unsubscribe" id="subscribe"
+                        class="unsubscribe">Unsubscribe</button>
+                    {% else %}
+                    <button youtuber={{youtuber.user_id_id}} option="subscribe" id="subscribe"
+                        class="subscribe">Subscribe</button>
+                    {% endif %}
+                    {%endif%}
+                </div>
+            </div>
+            <div class="navigation-panel">
+                <a onclick="toggle('personal-home', this.getAttribute('class'))" class="navigation-home">HOME</a>
+                <a onclick="toggle('personal-videos' ,  this.getAttribute('class'))"
+                    class="navigation-videos">VIDEOS</a>
+                <a onclick="toggle('personal-playlists' , this.getAttribute('class'))"
+                    class="navigation-playlists">PLAYLISTS</a>
+                <a onclick="toggle('personal-channels' , this.getAttribute('class'))"
+                    class="navigation-channels">CHANNELS</a>
+                <a onclick="toggle('personal-about' , this.getAttribute('class'))" class="navigation-about">ABOUT</a>
+            </div>
+            <hr class="navigation-panel-hr" />
+            <div>
+                <div class="personal-home">
+                    {% if home_videos %}
+                    <div class="personal-home-inner">
+                        {% for video in home_videos %}
+
+                        <div class="personal-video-card">
+                            <a href="\{{video.video_id}}">
+                                <img src="{{video.video_thumbnail.url}}" alt="">
+                            </a>
+                            <div class="personal-video-card__details">
+                                <p style="font-weight: 600;margin-bottom: 0%;margin-top: 2%;font-size: 1.1rem;">
+                                    {{video.video_title}}
+                                </p>
+                                <p style="margin-top: 1%;opacity: 0.7;">
+                                    {{video.video_views}} views
+                                </p>
+                                <p>
+                                    {{video.video_description}}
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% elif user_details.user_id == youtuber.user_id%}
+
+                    <img src="{% static 'assests/upload.png'%}" alt="" style="height: 10rem;">
+                    <h1>Upload a video to get started</h1>
+                    <p>
+                        Start sharing your story and connecting with
+                        viewers. Videos you upload will show up here.
+                    </p>
+                    <button onclick="openUploadVideoForm()">
+                        Upload video
+                    </button>
+                    <p>
+                        Learn more about
+                        <a> how to get started </a>
+                    </p>
+                    {% else %}
+                    <img src="{% static 'assests/not.png'%}" alt="" style="height: 10rem;">
+                    <h1>No video Uploaded yet!</h1>
+                    {% endif %}
+                </div>
+                <div class="personal-videos">
+                    {% if profile_videos %}
+                    <div class="personal-home-inner">
+                        {% for video in profile_videos %}
+
+                        <div class="personal-video-card">
+                            <a href="\{{video.video_id}}">
+                                <img src="{{video.video_thumbnail.url}}" alt="">
+                            </a>
+                            <div class="personal-video-card__details">
+                                <p style="font-weight: 600;margin-bottom: 0%;margin-top: 2%;font-size: 1.1rem;">
+                                    {{video.video_title}}
+                                </p>
+                                <p style="margin-top: 1%;opacity: 0.7;">
+                                    {{video.video_views}} views
+                                </p>
+                                <p>
+                                    {{video.video_description}}
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% elif user_details.user_id == youtuber.user_id%}
+
+                    <img src="{% static 'assests/upload.png'%}" alt="" style="height: 10rem;">
+                    <h1 style="font-size: 2rem; font-weight: 500; margin-top: 0%;">Upload a video to get started</h1>
+                    <p>
+                        Start sharing your story and connecting with
+                        viewers. Videos you upload will show up here.
+                    </p>
+                    <button onclick="openUploadVideoForm()">
+                        Upload video
+                    </button>
+                    <p>
+                        Learn more about
+                        <a> how to get started </a>
+                    </p>
+                    {% else %}
+                    <img src="{% static 'assests/not.png'%}" alt="" style="height: 10rem;">
+                    <h1>No video Uploaded yet!</h1>
+                    {% endif %}
+                </div>
+                <div class="personal-playlists">
+                    <h1>Coming Soon...</h1>
+                </div>
+                <div class="personal-channels">
+                    <h1>Coming Soon...</h1>
+                </div>
+                <div class="personal-about">
+                    <h1>Coming Soon...</h1>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% if user_details.user_id == youtuber.user_id%}
+    <div class="bg-modal">
+        <div class="modal-contents">
+            <span class="material-symbols-outlined" onclick="closeForm()">close</span>
+            <form action="" class="form-container" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h1>Edit Profile</h1>
+                <p>Profile picture</p>
+                <label class="profile-image-input" id="profile-image-input"
+                    style="background-image: url({{user_details.image.url}}) ">
+                    <!-- <img src="" id="temp" alt="" /> -->
+                    <span class="material-symbols-outlined">
+                        photo_camera
+                    </span>
+                    <input type="file" name="profile_image" class="profile-image-show" onchange="previewImage(event)" />
+                </label>
+                <div class="name-field">
+                    <span>
+                        <p>First name</p>
+                        <input type="text" placeholder="First name" name="firstname" />
+                    </span>
+                    <span>
+                        <p>Last name</p>
+                        <input type="text" placeholder="Last name" name="lastname" />
+                    </span>
+                </div>
+                <div class="gender-area">
+                    <span>
+                        <p>Gender</p>
+                        <input type="text" placeholder="gender" name="gender" />
+                    </span>
+                    <span>
+                        <p>DOB</p>
+                        <input type="text" placeholder="DD/MM/YYYY" onfocus="(this.type='date')" name="dob" />
+                    </span>
+                </div>
+                <p>Contact number</p>
+                <input type="text" placeholder="Contant No." name="contact" />
+                <p>Location</p>
+                <input type="text" placeholder="For e.g. India" name="location" />
+                <button type="submit" class="pop-button">Save</button>
+            </form>
+        </div>
+    </div>
+    <div class="upload-video-form-outer">
+        <div class="upload-video-form-inner">
+            <span class="material-symbols-outlined" onclick="closeUploadVideoForm()">close</span>
+            <h2 id="filename-header"></h2>
+            <h2>Details</h2>
+            <form action="" class="upload-video-form" id="upload-video-form" method="POST"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="upload-video-form-details-section">
+                    <input type="text" name="title" placeholder="Title" />
+                    <input type="text" name="description" placeholder="Description" />
+                    <span>
+                        <select name="video_category" id="video-category" form="upload-video-form">
+                            <option value="Video">Video</option>
+                            <option value="Music">Songs</option>
+                            <!-- <option value="Shorts">Shorts</option> -->
+                        </select>
+                    </span>
+
+                    <label class="thumbnail-image-input" id="thumbnail-image-input">
+                        <h3>Thumbnail</h3>
+                        <div id="thumbnail-image-input-div">
+
+                            <div id="thumbnail-image-input-icon">
+                                <i class="material-symbols-outlined">
+                                    photo_camera
+                                </i>
+                                Upload thumbnail
+                            </div>
+                            <input type="file" name="video_thumbnail" class="thumbnail-image-show"
+                                onchange="previewThumbnail(event)" required />
+                        </div>
+                    </label>
+                </div>
+                <div>
+                    <div id="section-uploaded-video-inner">
+
+                    </div>
+                    <div id="section-uploaded-video-text">
+                        <label for="filename" style="opacity: 0.7; font-size: 0.75rem;">Filename</label>
+                        <p name="filename" id="filename"></p>
+                    </div>
+                    <label class="section-uploaded-video">
+                        <div id="section-uploaded-video">
+                            <input type="file" name="uploaded_video" onchange="previewVideo(event)" required />
+                            <p id="section-uploaded-video__p">Select video</p>
+                        </div>
+                    </label>
+
+                </div>
+                <div>
+
+                </div>
+
+                <button type="submit" class="pop-button">Upload</button>
+
+
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    <script src="{% static '/scripts/profile.js' %}" type="text/javascript"></script>
+</body>
+
+</html>

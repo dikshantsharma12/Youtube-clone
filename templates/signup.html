@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'styles/signup.css' %}" />
+
+    <title>Signup Page</title>
+</head>
+
+<body>
+    <div class="sign-up-page">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" />
+        <p class="h1">Create your Google Account</p>
+        <p class="para-below-h1">to continue to YouTube</p>
+        <form name="signup" onsubmit="return validateForm()" method="post">
+            {% csrf_token %}
+            <div class="name-area">
+                <input type="text" name="firstname" placeholder="First name" required />
+                <input type="text" name="lastname" placeholder="Last name" required />
+            </div>
+            <input type="email" id="email" placeholder="Email or phone" name="email" required />
+            <p>You'll need to confirm that this email belongs to you.</p>
+
+            <a href=""> Create a new Gmail address instead </a>
+            <div class="password-area">
+                <input type="Password" id="pass" name="password" placeholder="Password" required />
+                <input type="Password" id="confirm" name="confirm" placeholder="Confirm" required />
+            </div>
+
+            <p class="password-error" id="password-error">
+                Use 8 or more characters with a mix of letters, numbers &
+                symbols
+            </p>
+            <div class="show-password">
+                <input type="checkbox" id="show" name="show" value="show" />
+                <label for="show"> Show password</label>
+            </div>
+
+            <div class="submit-area">
+                <a href="/login"> Sign in instead </a>
+                <button type="submit" class="next">Next</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <span>
+            <select name="language" id="ganguage">
+                <option value="english">English (United States)</option>
+                <option value="hindi">Hindi</option>
+                <option value="marathi">Marathi</option>
+                <option value="german">German</option>
+            </select>
+        </span>
+        <a href=""> Help </a>
+        <a href=""> Privacy </a>
+        <a href=""> Terms </a>
+    </footer>
+    <script src="{% static '/scripts/signup.js' %}" type="text/javascript"></script>
+</body>
+
+</html>

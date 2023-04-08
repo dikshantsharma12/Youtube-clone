@@ -1,0 +1,159 @@
+* {
+    box-sizing: border-box;
+    font-family: "Google Sans", "Noto Sans Myanmar UI", arial, sans-serif;
+}
+
+.sign-up-page {
+    display: flex;
+    width: 40rem;
+    border-radius: 0.3rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    border-width: 1px;
+    border-style: solid;
+    flex-direction: column;
+    border-color: rgb(196, 196, 196);
+    padding: 2rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+}
+
+.sign-up-page img {
+    width: 4.688rem;
+    height: 1.5rem;
+}
+
+.sign-up-page a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-family: "Google Sans", Arial, sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.0107142857em;
+    font-weight: 500;
+}
+
+.sign-up-page .h1 {
+    margin-top: 1.5rem;
+    color: #202124;
+    font-size: 1.5rem;
+    margin-bottom: 0%;
+    margin-left: 0%;
+}
+
+.sign-up-page .para-below-h1 {
+    color: #202124;
+    margin-top: 1rem;
+    font-size: 1rem;
+    margin-left: 0%;
+}
+
+.sign-up-page p {
+    color: #5f6368;
+    font-size: 0.875rem;
+    margin-top: 0.3rem;
+    margin-left: 0.8rem;
+}
+
+input {
+    border-style: none;
+    border-style: solid;
+    padding-left: 0.8rem;
+}
+
+form>input {
+    width: 100%;
+    border-radius: 0.3rem;
+    height: 2.5rem;
+
+    border-width: 1px;
+    border-color: rgb(196, 196, 196);
+}
+
+.name-area {
+    display: flex;
+    margin-top: 2rem;
+    column-gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.name-area input {
+    width: 100%;
+    border-radius: 0.3rem;
+    height: 2.5rem;
+
+    border-width: 1px;
+    border-color: rgb(196, 196, 196);
+}
+
+.password-area {
+    display: flex;
+    column-gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.password-area input {
+    width: 100%;
+
+    border-radius: 0.3rem;
+    height: 2.5rem;
+    border-width: 1px;
+    border-color: rgb(196, 196, 196);
+}
+
+.show-password {
+    display: flex;
+    align-items: center;
+    column-gap: 0.4rem;
+    font-size: 0.95rem;
+    font-family: "Noto Sans Myanmar UI", arial, sans-serif;
+}
+
+.sign-up-page .show-password input {
+    height: 1rem;
+    width: 1rem;
+}
+
+.submit-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3.5rem;
+}
+
+.next {
+    color: #fff;
+    border-radius: 0.3rem;
+    border-style: none;
+    background-color: #1a73e8;
+    height: 2rem;
+    width: 5rem;
+}
+
+footer {
+    width: 40rem;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 5fr 1fr 1fr 1fr;
+    margin-bottom: 5%;
+}
+
+footer a {
+    color: #333536;
+    text-decoration: none;
+    justify-self: end;
+    font-size: 0.75rem;
+}
+
+footer select {
+    border: none;
+    background-color: #fff;
+    font-size: 0.75rem;
+    color: #333536;
+
+    /* -webkit-appearance: none;
+    -moz-appearance: none; */
+}

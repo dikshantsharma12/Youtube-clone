@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static 'styles/search_page.css' %}" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a>
+                <img src="{% static 'assests/home/more.png'%}" alt="" onclick="minimizeOrMaximize()" />
+            </a>
+            <a href="/" class="youtube-icon">
+                <img src="{% static 'assests/home/ytlight.png' %}" alt="" />
+            </a>
+        </div>
+        <div>
+            <form action="" method="GET">
+                <input type="text" placeholder="Search" name="search_text" />
+                <button type="submit">
+                    <img src="{% static 'assests/home/search.png'%}" alt="" />
+                </button>
+            </form>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+            <i class="material-symbols-outlined " id="video-upload-icon">
+                video_call
+            </i>
+            <a href="/profile" class="profile-icon-corner">
+                <img src="{{user_details.image.url}}" alt="{{user.first_name}}" />
+            </a>
+            <a href="{% url 'logout' %}" class="sign-in-button">
+                <button>
+                    Sign Out
+                </button>
+            </a>
+            {% else %}
+            <a href="/login" class="sign-in-button">
+                <button>
+                    Sign In
+                </button>
+            </a>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        {% if filtered_videos and filtered_users %}
+        <div id="toggle-buttons">
+            <button id="videos-button" onclick="toggle('videos')">
+                Videos
+            </button>
+            <button id="people-button" onclick="toggle('peoples')">
+                People
+            </button>
+        </div>
+
+        {% endif %}
+        <div class="filtered-videos" id="filtered-videos">
+            {% if filtered_videos %}
+
+            {% for video in video_uploader %}
+            <div class="video-card">
+                <img src="/media/{{video.video_thumbnail | safe }}" alt="" id="thumbnail" />
+                <div class="video-card-details">
+                    <div>
+                        <a href="/{{video.video_id}}" style="text-decoration: none; color: black">
+                            <p class="video-card-title">
+                                {{video.video_title}}
+                            </p>
+                        </a>
+                        <p class="video-card-channel">
+                            {{video.first_name}} {{video.last_name}}
+                        </p>
+                    </div>
+                    <div>
+                        <a href="\profile/{{video.user_id_id}}" class="profile-icon-corner">
+                            <img src="/media/{{video.image | safe}}" alt="{{video.first_name}}" />
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="filtered-users" id="filtered-users">
+            {% if filtered_users %}
+            {% for youtuber in filtered_users %}
+            <div class="profile-card">
+                <div class="youtuber-image-container">
+                    <a href="\profile/{{youtuber.user_id_id}}">
+                        <img src="{{youtuber.image.url}}" alt="" style="border-radius: 100%; height: 10rem;">
+                    </a>
+                </div>
+                <div>
+                    <p style="font-size: 1.5rem;margin: 0%;">{{youtuber.first_name}}</p>
+                    <p style="opacity: 0.7;">@{{youtuber.first_name}} {{youtuber.last_name}}</p>
+                </div>
+                <div style="display:flex; justify-self:center; align-items: center;">
+                    <button style="background-color: black;">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% if not filtered_users and not filtered_videos %}
+        <div class="no-results">
+            <img src="{% static 'assests/not.png'%}" alt="" style="height: 10rem;">
+            <h1>No Result Found</h1>
+            <p>Try different keyword or remove search filter</p>
+        </div>
+        {% endif %}
+    </main>
+    <script src="{% static '/scripts/search_page.js' %}" type="text/javascript"></script>
+</body>
+
+</html>
